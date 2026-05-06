@@ -1,0 +1,68 @@
+:root {
+  --paper: #faf7f2;
+  --ink: #1c1b18;
+  --muted: #5c5852;
+  --accent: #b45309;
+  --line: #e6dfd4;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: "Georgia", "Times New Roman", serif;
+  background: var(--paper);
+  color: var(--ink);
+}
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--line);
+  background: #fffdf8;
+  position: sticky;
+  top: 0;
+}
+.logo { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.15rem; }
+.search { display: flex; gap: 0.5rem; margin-left: auto; }
+.search input {
+  min-width: 220px;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.search button {
+  padding: 0.45rem 0.85rem;
+  border-radius: 6px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.shell { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+.intro h1 { font-size: 1.85rem; margin-bottom: 0.35rem; }
+.sub { color: var(--muted); max-width: 60ch; }
+.panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.1rem 1.25rem;
+  margin-top: 1.25rem;
+}
+.grid { width: 100%; border-collapse: collapse; }
+.grid th, .grid td { text-align: left; padding: 0.5rem 0.35rem; border-bottom: 1px solid var(--line); }
+.grid a { color: var(--accent); }
+.pill {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: #f3ebe0;
+  font-size: 0.85rem;
+}
+.detail .meta { color: var(--muted); }
+.hold { display: grid; gap: 0.65rem; margin-top: 0.75rem; max-width: 420px; }
+.hold input[type="text"] { width: 100%; padding: 0.4rem; border-radius: 6px; border: 1px solid var(--line); }
+.hold button { margin-top: 0.35rem; padding: 0.5rem 0.9rem; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent); color: #fff; }
+.ok { border-left: 4px solid #15803d; }
+.btn { display: inline-block; margin-top: 0.75rem; padding: 0.45rem 0.85rem; border-radius: 8px; background: #fff; border: 1px solid var(--line); text-decoration: none; color: var(--ink); }
+.fine { text-align: center; color: var(--muted); font-size: 0.8rem; padding: 2rem; }
