@@ -16,11 +16,21 @@ let private writeHtml (ctx: HttpContext) (html: string) =
     ctx.Response.ContentType <- "text/html; charset=utf-8"
     ctx.Response.WriteAsync(html)
 
+let private textOrEmpty (t: string | null) =
+    match t with
+    | null -> ""
+    | x -> x
+
+let private routeText (o: obj | null) =
+    match o with
+    | null -> ""
+    | v -> textOrEmpty (v.ToString())
+
 let private formGet (form: IFormCollection) (name: string) =
     let mutable s = StringValues.Empty
 
     if form.TryGetValue(name, &s) then
-        s.ToString()
+        textOrEmpty (s.ToString())
     else
         ""
 
@@ -28,9 +38,13 @@ let mapRoutes (app: WebApplication) =
     app.MapGet(
         "/",
         RequestDelegate(fun ctx ->
-            let q =
+            let q: string =
                 match ctx.Request.Query.TryGetValue("q") with
-                | true, v when v.Count > 0 -> v.[0].ToString()
+                | true, v when v.Count > 0 ->
+                    match v.[0] with
+                    | null -> ""
+                    | s when s.Length = 0 -> ""
+                    | s -> s
                 | _ -> ""
 
             let books = filterCatalog q
@@ -43,7 +57,7 @@ let mapRoutes (app: WebApplication) =
         RequestDelegate(fun ctx ->
             let isbn =
                 match ctx.Request.RouteValues.TryGetValue("isbn") with
-                | true, v -> v.ToString()
+                | true, v -> routeText v
                 | _ -> ""
 
             match tryFind isbn with
@@ -80,5 +94,15 @@ let mapRoutes (app: WebApplication) =
                     lock gate (fun () -> holds.Add(row))
                     return! writeHtml ctx (holdOk reader title)
             })
+    )
+    |> ignore
+
+    app.MapGet(
+        "/holds",
+        RequestDelegate(fun ctx ->
+            let rows =
+                lock gate (fun () -> holds |> Seq.toList)
+
+            writeHtml ctx (holdsPage rows))
     )
     |> ignore

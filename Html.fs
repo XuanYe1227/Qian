@@ -18,6 +18,7 @@ let layoutQ (title: string) (q: string) (inner: string) =
 <body>
   <header class="bar">
     <a class="logo" href="/">OpenStacks</a>
+    <a class="side" href="/holds">Holds</a>
     <form class="search" method="get" action="/" role="search">
       <input type="search" name="q" placeholder="Title, author, tag, ISBN…" value="%s" />
       <button type="submit">Search</button>
@@ -102,3 +103,30 @@ let notFound () =
         "Missing"
         ""
         """<section class="panel"><h1>We could not find that ISBN</h1><p><a href="/">Search again</a></p></section>"""
+
+let holdsPage (rows: HoldNotice list) =
+    let sorted = holdsNewestFirst rows
+
+    let bodyRows =
+        if List.isEmpty sorted then
+            "<tr><td colspan=\"4\" class=\"muted\">No hold requests yet.</td></tr>"
+        else
+            sorted
+            |> List.map (fun h ->
+                sprintf
+                    """<tr><td>%s</td><td>%s</td><td>%s</td><td class="muted">%s</td></tr>"""
+                    (esc h.Reader)
+                    (esc h.Isbn)
+                    (esc h.Note)
+                    (h.AtUtc.ToString("yyyy-MM-dd HH:mm") + " UTC"))
+            |> String.concat ""
+
+    let body =
+        sprintf
+            """<section class="panel"><h1>Hold requests (this session)</h1>
+<p class="sub">Newest first. Data is cleared when the server process restarts.</p>
+<table class="grid"><thead><tr><th>Reader</th><th>ISBN</th><th>Note</th><th>When</th></tr></thead><tbody>%s</tbody></table>
+<p><a href="/">← Catalogue</a></p></section>"""
+            bodyRows
+
+    layoutQ "Holds" "" body

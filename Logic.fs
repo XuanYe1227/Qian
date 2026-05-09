@@ -72,3 +72,6 @@ type HoldNotice =
         Note: string
         AtUtc: DateTime
     }
+
+let holdsNewestFirst (rows: HoldNotice list) =
+    rows |> List.sortByDescending (fun h -> h.AtUtc)

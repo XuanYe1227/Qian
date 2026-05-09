@@ -24,6 +24,8 @@ body {
   top: 0;
 }
 .logo { font-weight: 700; color: var(--accent); text-decoration: none; font-size: 1.15rem; }
+.side { color: var(--ink); text-decoration: none; font-size: 0.95rem; border-bottom: 1px dotted var(--muted); }
+.side:hover { color: var(--accent); border-bottom-color: var(--accent); }
 .search { display: flex; gap: 0.5rem; margin-left: auto; }
 .search input {
   min-width: 220px;
