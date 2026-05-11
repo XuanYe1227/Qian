@@ -11,8 +11,6 @@ ASP.NET Core 8 + F#: a small **library-style catalog** (search, book by ISBN, in
 ## Run (from repo root)
 
 ```bash
-cd src2/git
-dotnet restore
 dotnet build
 dotnet run
 ```
