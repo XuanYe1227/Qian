@@ -11,8 +11,6 @@ ASP.NET Core 8 + F# library catalog (search, ISBN detail, holds). `Program.fs`: 
 ## Run
 
 ```bash
-cd src2/git
-dotnet restore
 dotnet build
 dotnet run
 ```
