@@ -6,32 +6,36 @@
 
 ## About
 
-ASP.NET Core 8 + F#: a small **library-style catalog** (search, book by ISBN, in-memory **hold** queue). No WebSharper. HTML from `Html.fs`, rules in `Logic.fs`, routes in `App.fs`. CSS in `wwwroot/css/`.
+ASP.NET Core 8 + F# library catalog (search, ISBN detail, holds). `Program.fs`: forwarded headers; `PORT` only off IIS.
 
-## Run (from repo root)
+## Run
 
 ```bash
+cd src2/git
+dotnet restore
 dotnet build
 dotnet run
 ```
 
-Default local URL: port **5020** (`Properties/launchSettings.json`). If `PORT` is set, `Program.fs` listens on `http://0.0.0.0:{PORT}`.
+Port **5020** locally.
+
+## MonsterASP: `\wwwroot` rule
+
+Host policy: **`\wwwroot` is website root; application files that the web may use must be under this directory.**
+
+Deploy: `dotnet publish -c Release -o publish`, then upload **all** of `publish/` into server `\wwwroot` (`web.config`, `LibraryLab.dll`, other DLLs, JSON, inner `wwwroot/`). Nested `\wwwroot\wwwroot\` is normal.
 
 ## Endpoints
 
-- `GET /` - catalog; `?q=` filters titles/tags/authors
-- `GET /book/{isbn}` - one book
-- `POST /hold` - form: `reader`, `isbn`, optional `note`
-- `GET /holds` - holds submitted in this process
+- `GET /` - catalog (`?q=`)
+- `GET /book/{isbn}` - detail
+- `POST /hold` - form
+- `GET /holds` - list
 
 ## Repo
 
-Ignored: `bin/`, `obj/`, optional `build/`. CI: `.github/workflows/ci.yml`.
+Ignore `bin/`, `obj/`, `build/`, `_pubcheck/`. CI: `.github/workflows/ci.yml`.
 
-## Source files
+## Files
 
-- `LibraryLab.fsproj` - project
-- `Program.fs` - host, static files, `PORT`
-- `App.fs` - routes
-- `Logic.fs` - catalog + filters
-- `Html.fs` - HTML
+`LibraryLab.fsproj`, `web.config`, `Program.fs`, `App.fs`, `Logic.fs`, `Html.fs`
